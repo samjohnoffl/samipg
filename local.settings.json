@@ -1,0 +1,7 @@
+{
+    "IsEncrypted": false,
+    "Values": {
+        "COSMOS_CONNECTION_STRING": "AccountEndpoint=https://aa1.documents.azure.com:443/;AccountKey=SlXM9unqwGkOyXd3GvVn8AGYhJ3oHXJBKIT4HNH5SNu9DpXnDCOrd7VJpPtugjwyRVjSIl3pVR4iACDbH4GLPg==;",
+        "SIGNALR_CONNECTION_STRING": "Endpoint=https://samipg.service.signalr.net;AccessKey=4TVhXREGPys17KVAVzgboPYjnxb8DCYgAqYTTeRxdO8FkEOlnXvVJQQJ99AJACYeBjFXJ3w3AAAAASRSAxgP;Version=1.0;"
+    }
+}
