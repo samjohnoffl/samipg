@@ -1,25 +1,40 @@
-<h2>Vote for your favorite option</h2>
-<button onclick="submitVote('OptionA')">Vote for Option A</button>
-<button onclick="submitVote('OptionB')">Vote for Option B</button>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real-Time Voting</title>
+</head>
+<body>
+    <h1>Vote for Your Favorite Option!</h1>
+    <button onclick="castVote('Option 1')">Option 1</button>
+    <button onclick="castVote('Option 2')">Option 2</button>
 
-<h2>Current Leaderboard</h2>
-<div id="leaderboard"></div>
+    <h2>Current Votes:</h2>
+    <div id="voteResults"></div>
 
-<script>
-   function submitVote(option) {
-      fetch('/api/vote', {
-         method: 'POST',
-         headers: { 'Content-Type': 'application/json' },
-         body: JSON.stringify({ option: option })
-      }).catch(console.error);
-   }
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/signalr/3.1.0/signalr.min.js"></script>
+    <script>
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl("https://samipg.service.signalr.net")
+            .build();
 
-   // Fetch the leaderboard data every few seconds
-   setInterval(() => {
-      fetch('/api/leaderboard')
-      .then(response => response.json())
-      .then(data => {
-         document.getElementById("leaderboard").innerText = JSON.stringify(data);
-      }).catch(console.error);
-   }, 2000);
-</script>
+        connection.on("newVote", (data) => {
+            const resultsDiv = document.getElementById("voteResults");
+            resultsDiv.innerHTML += `<p>${data.vote}</p>`;
+        });
+
+        connection.start().catch(err => console.error(err));
+
+        async function castVote(vote) {
+            await fetch("<YOUR_FUNCTION_URL>", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ vote })
+            });
+        }
+    </script>
+</body>
+</html>
