@@ -1,0 +1,16 @@
+<html>
+<head>
+    <title>Live Leaderboard</title>
+</head>
+<body>
+    <h1>Live Voting Leaderboard</h1>
+    <div id="leaderboard"></div>
+
+    <script>
+        const source = new EventSource('/api/realtime-updates');
+        source.onmessage = function(event) {
+            document.getElementById("leaderboard").innerHTML = event.data;
+        };
+    </script>
+</body>
+</html>
