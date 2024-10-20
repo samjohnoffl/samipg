@@ -1,16 +1,25 @@
-<html>
-<head>
-    <title>Live Leaderboard</title>
-</head>
-<body>
-    <h1>Live Voting Leaderboard</h1>
-    <div id="leaderboard"></div>
+<h2>Vote for your favorite option</h2>
+<button onclick="submitVote('OptionA')">Vote for Option A</button>
+<button onclick="submitVote('OptionB')">Vote for Option B</button>
 
-    <script>
-        const source = new EventSource('/api/realtime-updates');
-        source.onmessage = function(event) {
-            document.getElementById("leaderboard").innerHTML = event.data;
-        };
-    </script>
-</body>
-</html>
+<h2>Current Leaderboard</h2>
+<div id="leaderboard"></div>
+
+<script>
+   function submitVote(option) {
+      fetch('/api/vote', {
+         method: 'POST',
+         headers: { 'Content-Type': 'application/json' },
+         body: JSON.stringify({ option: option })
+      }).catch(console.error);
+   }
+
+   // Fetch the leaderboard data every few seconds
+   setInterval(() => {
+      fetch('/api/leaderboard')
+      .then(response => response.json())
+      .then(data => {
+         document.getElementById("leaderboard").innerText = JSON.stringify(data);
+      }).catch(console.error);
+   }, 2000);
+</script>
